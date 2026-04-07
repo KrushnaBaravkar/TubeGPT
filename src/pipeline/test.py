@@ -1,5 +1,6 @@
 from indexing import index_video
 from retrieval import get_context_from_vector_store
+from augmentation import augment_context
 import string
 
 
@@ -20,4 +21,7 @@ vectore_store = result_of_indexing["vector_store"]     # vector store created in
 
 retrived_context = get_context_from_vector_store(vectore_store, query)    # retriving the context from the created vectore database
 
-print("Retrived context is : ", retrived_context)
+# print("Retrived context is : ", retrived_context)
+
+final_prompt = augment_context(retrived_context, query)     # getting final prompt from augmentation
+print("Final prompt is : ", final_prompt)
