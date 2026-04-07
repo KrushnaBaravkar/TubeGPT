@@ -1,0 +1,22 @@
+# YouTube Transcript
+youtube-transcript-api
+
+# LangChain
+langchain
+langchain-openai
+langchain-community
+
+# Vector Store
+faiss-cpu
+
+# OpenAI
+openai
+
+sentence-transformers
+
+# UI (choose one)
+streamlit        # if you're using Streamlit for UI
+
+# Environment variables
+python-dotenv
+

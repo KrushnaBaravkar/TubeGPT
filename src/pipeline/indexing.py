@@ -1,45 +1,22 @@
-"""
-indexing.py
------------
-Stage 1 of the RAG pipeline.
-
-Responsibilities:
-  - Accept a YouTube URL (or bare video ID)
-  - Fetch the transcript via YouTubeTranscriptApi
-  - Split transcript into overlapping chunks
-  - Embed chunks with OpenAI embeddings
-  - Store embeddings in a FAISS vector store
-  - Return everything the retrieval stage needs
-
-Usage:
-    from pipeline.indexing import index_video
-
-    result = index_video("https://www.youtube.com/watch?v=fNk_zzaMoSs")
-    # or bare ID:
-    result = index_video("fNk_zzaMoSs")
-
-    # What you get back:
-    result["vector_store"]   # FAISS index  → pass to retrieval.py
-    result["chunks"]         # List[Document] → optional, for inspection
-    result["transcript"]     # Raw transcript string → optional
-    result["video_id"]       # Cleaned video ID
-"""
-
 import re
 from typing import Union
+import os
 
 from youtube_transcript_api import YouTubeTranscriptApi, TranscriptsDisabled, NoTranscriptFound
-from langchain.text_splitter import RecursiveCharacterTextSplitter
-from langchain_openai import OpenAIEmbeddings
+from langchain_text_splitters import RecursiveCharacterTextSplitter
+from langchain_community.embeddings import HuggingFaceEmbeddings
 from langchain_community.vectorstores import FAISS
+from dotenv import load_dotenv
+load_dotenv()  ## load all the environment variables
 
 
 # ── Configuration ────────────────────────────────────────────────────────────
 
 CHUNK_SIZE    = 1000   # characters per chunk
 CHUNK_OVERLAP = 200    # overlap between consecutive chunks
-EMBEDDING_MODEL = "text-embedding-3-small"
-
+embeddings = HuggingFaceEmbeddings(
+    model_name="sentence-transformers/all-MiniLM-L6-v2"
+)
 
 # ── Helpers ───────────────────────────────────────────────────────────────────
 
@@ -99,14 +76,23 @@ def _split_transcript(transcript: str) -> list:
 
 def _build_vector_store(chunks: list) -> FAISS:
     """
-    Embed chunks with OpenAI and store them in a FAISS index.
+    Embed chunks using a local HuggingFace model and store them in a FAISS index.
     """
-    embeddings   = OpenAIEmbeddings(model=EMBEDDING_MODEL)
+
+    # Initialize local embedding model
+    embeddings = HuggingFaceEmbeddings(
+        model_name="sentence-transformers/all-MiniLM-L6-v2"
+    )
+
+    print("check ---------- Embeddings generated ------------")
+
+    # Create FAISS vector store
     vector_store = FAISS.from_documents(chunks, embeddings)
+
+    print("check --------- Vector store created ------------")
+
     return vector_store
 
-
-# ── Public API ────────────────────────────────────────────────────────────────
 
 def index_video(url_or_id: str) -> dict:
     
@@ -127,7 +113,7 @@ def index_video(url_or_id: str) -> dict:
     # Step 4 – embed + index
     print("[indexing] Building vector store …")
     vector_store = _build_vector_store(chunks)
-    print("[indexing] Done ✓")
+    # print("[indexing] Done ✓")
 
     return {
         "video_id"    : video_id,
@@ -135,5 +121,6 @@ def index_video(url_or_id: str) -> dict:
         "chunks"      : chunks,
         "vector_store": vector_store,
     }
+
 
 
