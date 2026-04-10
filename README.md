@@ -38,7 +38,7 @@ ollama serve
 1. Clone the repository:
 
 ```bash
-git clone https://github.com/your-username/TubeGPT.git
+git clone https://github.com/KrushnaBaravkar/TubeGPT.git
 cd TubeGPT
 ```
 
