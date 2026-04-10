@@ -1,6 +1,6 @@
-# ▶ VidQuery — YouTube RAG Pipeline
+# ▶ TubeGPT — YouTube RAG Pipeline
 
-> Ask anything about any YouTube video. VidQuery fetches the transcript, indexes it into a local vector store, and answers your questions using a fully local LLM — no OpenAI API needed.
+> Ask anything about any YouTube video. TubeGPT fetches the transcript, indexes it into a local vector store, and answers your questions using a fully local LLM — no OpenAI API needed.
 
 ## Features
 
@@ -38,8 +38,8 @@ ollama serve
 1. Clone the repository:
 
 ```bash
-git clone https://github.com/your-username/vidquery.git
-cd vidquery
+git clone https://github.com/your-username/TubeGPT.git
+cd TubeGPT
 ```
 
 2. Create and activate a virtual environment:
@@ -74,7 +74,7 @@ Then open your browser at `http://localhost:8501`.
 ## 📁 Project Structure
 
 ```
-vidquery/
+TubeGPT/
 │
 ├── app.py                  ← Streamlit UI (entry point)
 │
