@@ -14,7 +14,7 @@ video_url = st.text_input("Enter YouTube Video URL:")
 if "vector_store" not in st.session_state:
     st.session_state.vector_store = None
 
-if st.button("Index Video"):
+if st.button("Verify video Link"):
     if not video_url:
         st.warning("Please enter a valid YouTube URL")
     else:
