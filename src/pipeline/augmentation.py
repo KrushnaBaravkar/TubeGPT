@@ -7,7 +7,6 @@ llm = ChatOllama(
     temperature=0.2
 )
 
-# 🔹 Prompt for CONTEXT ENRICHMENT (augmentation step)
 augmentation_prompt = PromptTemplate(
     template="""
 You are a context optimizer.
