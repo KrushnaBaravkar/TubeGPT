@@ -1,4 +1,4 @@
-# ▶ TubeGPT — YouTube RAG Pipeline
+# ▶ TubeGPT: RAG-based YouTube Transcript Q&A System
 
 > Ask anything about any YouTube video. TubeGPT fetches the transcript, indexes it into a local vector store, and answers your questions using a fully local LLM — no OpenAI API needed.
 
